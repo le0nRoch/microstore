@@ -10,48 +10,56 @@ _..._
 
 ## Microservices
 
-_Grafik in bearbeitung..._
+![Architektur](./docs/architecute.png)
 
 ### User Service
 
+Der `User Service` handhabt die User. Er ist für Login, Registrierung und CRUD Operationen der User zuständig.
 
-### Product Service
+### Product Catalog Service
 
-Der `Product Service` stellt die Produkte zur Verfügung. Er gibt die Produkte zurück, die der User sehen kann. Der `Product Service` ist für die CRUD Operationen der Produkte zuständig. 
-
+Der `Product Catalog Service` stellt dem Client Interface die zu verkaufenden Produkte zur Verfügung. Der `Product Service` ist für die CRUD Operationen der Produkte zuständig.
 
 ### Cart Service
 
-Der `Cart Service` ist für die CRUD Operationen des Warenkorbs zuständig. Er speichert die Produkte, die der User in den Warenkorb gelegt hat. Der `Cart Service` gibt die Produkte zurück, die der User in den Warenkorb gelegt hat. Der `Cart Service` wird später für den Checkout benötigt.
+Der `Cart Service` ist für die CRUD Operationen des Warenkorbs zuständig. Er validiert den Warenkorb und leitet den Checkout Prozess ein.
+
+### Payment Service
+
+Der `Payment Service` ist für die Bezahlung zuständig.
 
 ### Email Service
 
-Der `Email Service` ist für das Versenden von Emails zuständig. Er sendet Emails an den User, wenn er sich registriert oder ein Produkt kauft.
-
+Der `Email Service` ist für das Versenden von Emails zuständig. Er sendet Emails an den User, wenn er sich registriert oder ein Produkt kauft. Die Aufträge erhält er mittels Kafka.
 
 ### Order Service
 
-Der `Order Service` ist für die Bestellungen zuständig. Er speichert die Bestellungen, führt eine Bestellung durch und gibt die versendet die Produkte an den User. 
+Der `Order Service` ist für die Bestellungen zuständig. Er speichert die Bestellungen, führt eine Bestellung durch und gibt die versendet die Produkte an den User.
 
+### Storage Service
 
-### Lagerbestand Service
-
-Der `Lagerbestand Service` ist für die Überwachung des Lagerbestands zuständig. Er benachrichtigt den `Buyer Service`, wenn ein Produkt nicht mehr auf Lager ist. 
+Der `Storage Service` ist für die Überwachung des Lagerbestands zuständig. Er benachrichtigt den `Buyer Service` mittels Kafka, wenn ein Produkt nicht mehr auf Lager ist.
 
 ### Buyer Service
 
-Der `Buyer Service` ist für die Überwachung der Bestände und Käufe zuständig. Er überwacht die Bestände und Käufe und benachrichtigt den User, wenn ein Produkt nicht mehr auf Lager ist. Wenn ein Produkt nicht mehr auf Lager ist, wird werden die Bestände aktualisiert und aufgestockt.
+Der `Buyer Service` ist für das Kaufen von Produkten zuständig. Die Bestellung wird mittels Kafka erhalten und durchgeführt.
 
+### Eureka Service
 
-### Monitoring Service
+Der `Eureka Service` ist für das Service Discovery zuständig. Er registriert die Services und gibt sie an die Services weiter.
 
-Der `Monitoring Service` ist für die Überwachung der Bestände und Käufe zuständig. Er gibt die Bestände und Käufe zurück und macht logging. 
+### Kafka
 
+Kafka ist ein Message Broker, der die Services asynchron miteinander kommunizieren lässt.
 
-### Client Frontend Service
+### Client Interface
 
 Der `Client Frontend Service` ist für die Darstellung der Produkte und des Warenkorbs zuständig. Er zeigt die Produkte an, die in den Warenkorb gelegt werden können. Im Warenkorb kann der User die Produkte sehen, die er kaufen möchte. Beim Checkout wird der User aufgefordert, seine Daten einzugeben um zu bezahlen.
 
-### Admin Frontend Service
+### Gateway
+
+Das `Gateway` dirigiert die Anfragen an die Services.
+
+### Admin Interface
 
 Der `Admin Frontend Service` ist für das Management der Produkte zuständig. Er kann neue Produkte hinzufügen, bestehende Produkte bearbeiten und löschen. Der Admin kann die Bestellungen einsehen und die Bestände überwachen.
