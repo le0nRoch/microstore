@@ -234,17 +234,37 @@ Das `Admin Interface` kann die Bestellungen einsehen. So kann es sehen, welche P
 
 <summary>
 
-### Erweiterbarkeit
+## Fehlerbehandlung
+
+Bei der Fehlerbehandlung gibt es verschiedene Aspekte, die beachtet werden müssen. Wir haben uns folgendes überlegt:
+
+</summary>
+
+### Logging und Monitoring
+
+Das Monitoring kann beispielsweise mit Prometheus und Grafana realisiert werden. So können wir die Performance und Gesundheit der einzelnen Services ansehen und somit Fehler erkennen. Zusätzlich könnten wir auch den `Email Service` benutzen, um uns bei gravierenden Fehlern oder Gefahren zu benachrichtigen.
+
+### Hystrix als Resilience Library
+
+Die Services sollten mit `Hystrix` ausgestattet werden, sodass sie temporäre Fehler abfangen können und die Aktionen erneut ausführen können. Zudem kann `Hystrix` auch als Circuit Breaker verwendet werden, um fehlerhafte Aktionen zu unterbrechen und Fallbacks bereitzustellen.
+
+</details>
+
+<details>
+
+<summary>
+
+## Erweiterbarkeit
 
 Die Architektur ist zum jetzigen Zeitpunkt noch relativ simpel. Um einen Vollständigen Shop zu erstellen, müssten noch viele weitere Services hinzugefügt werden.
 
 </summary>
 
-#### Internes Interface
+### Internes Interface
 
 Damit die Mitarbeiter im Lager die Bestellungen einsehen und abarbeiten können, müsste ein internes Interface erstellt werden. Dieses Interface würde die Bestellungen anzeigen und die Mitarbeiter könnten die Bestellungen als versendet markieren. Zudem könnten sie den Lagerbestand einsehen und bearbeiten, wenn eine Lieferung eintrifft.
 
-#### Buyer Datenbank
+### Buyer Datenbank
 
 Dass der `Storage Service` weiss, welche Produkte bereits nachbestellt wurden, müsste eine Buyer Datenbank erstellt werden. Diese würde die Bestellungen speichern und der `Storage Service` könnte sehen, welche Produkte bereits nachbestellt wurden.
 
